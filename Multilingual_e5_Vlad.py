@@ -3,10 +3,6 @@ import pandas as pd
 import sqlite3
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from Get_dictionary_Michael import Get_DF_from_Dictionary, Get_Small_Dictionary_from_Excel
-import tkinter as tk
-from tkinter import filedialog
-from pathlib import Path
 import os
 #Используем мультиангл из практического занятия
 
@@ -38,24 +34,6 @@ class TextDatabase:
     def close(self):
         self.conn.close()
   
-#функция загрузки файлов 
-def select_excel_files():
-    # Создаем корневое окно и скрываем его
-    root = tk.Tk()
-    root.withdraw()
-
-    # Разрешаем пользователю выбрать несколько файлов
-    file_paths = filedialog.askopenfilenames(
-        title="Выберите файлы Excel",
-        filetypes=[("Excel files", "*.xlsx *.xls")]
-    )
-    # Преобразуем выбранные пути в список строк с префиксом r
-    filePathList = [rf'{Path(path)}' for path in file_paths]
-        
-    # Преобразуем пути в формат списка
-    file_path_list = list(file_paths)
-
-    return file_path_list
 
 #получаем ближайшие слова для одного датафрейма, n ближайших значений, request- запрос
 def get_words_from_multilingual_e5_base(test_texts, n, request):
@@ -96,17 +74,3 @@ def get_words_from_multilingual_e5_base(test_texts, n, request):
     a = td.find_nearest_text(text=request,k=n)
     return a
 
-#Пример использования
-#In[]
-#выбираем файлы
-path=select_excel_files()
-print(path)
-#получаем словарь с заголовками
-s=Get_Small_Dictionary_from_Excel(path)
-#получаем датафрейм из словаря
-test_texts=Get_DF_from_Dictionary(s)
-print(test_texts)
-#получаем ответ в виле списка заголовков [list]
-answer= get_words_from_multilingual_e5_base(test_texts,3,'скважина') 
-new_list = [item[0] for item in answer]
-print(new_list)

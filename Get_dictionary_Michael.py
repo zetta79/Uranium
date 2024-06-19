@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import tkinter as tk
+from tkinter import filedialog
+from pathlib import Path
 
 '''
 Класс-обработчик таблиц excel, возвращает словарь , где ключи это названия файла+листа, а значения это словари, в котором ключи это заголовки, а значения это данные
@@ -387,3 +390,22 @@ def Get_ALL_Dictionary_from_Excel(filePathList):
 
     #вернет весь словарь
     return sssolve.ddmain   
+
+#функция загрузки файлов 
+def select_excel_files():
+    # Создаем корневое окно и скрываем его
+    root = tk.Tk()
+    root.withdraw()
+
+    # Разрешаем пользователю выбрать несколько файлов
+    file_paths = filedialog.askopenfilenames(
+        title="Выберите файлы Excel",
+        filetypes=[("Excel files", "*.xlsx *.xls")]
+    )
+    # Преобразуем выбранные пути в список строк с префиксом r
+    filePathList = [rf'{Path(path)}' for path in file_paths]
+        
+    # Преобразуем пути в формат списка
+    file_path_list = list(file_paths)
+
+    return file_path_list

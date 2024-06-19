@@ -8,9 +8,6 @@ nltk.download('wordnet')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from sklearn.metrics.pairwise import cosine_similarity
-from Multilingual_e5_Vlad import select_excel_files
-from Get_dictionary_Michael import Get_DF_from_Dictionary, Get_Small_Dictionary_from_Excel   
-
 
 #получаем ближайшие слова для одного датафрейма, n ближайших значений, request- запрос
 def get_words_from_multilingual_bert(data, n, request):
@@ -61,16 +58,3 @@ def get_words_from_multilingual_bert(data, n, request):
         phrase_list.append(phrase)
     return phrase_list
 
-#Пример использования
- #In[]
-# #выбираем файлы
-# path=select_excel_files()
-# print(path)
-# #получаем словарь с заголовками
-# s=Get_Small_Dictionary_from_Excel(path)
-# #получаем датафрейм из словаря
-# data = Get_DF_from_Dictionary(s)
-# #получаем ответ в виде списка заголовков [list]
-# answer= get_words_from_multilingual_bert(data,3,'номер')
-# #итоговый список 
-# print(answer)
