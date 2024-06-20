@@ -36,15 +36,15 @@ class TextDatabase:
   
 
 #получаем ближайшие слова для одного датафрейма, n ближайших значений, request- запрос
-def get_words_from_multilingual_e5_base(test_texts, n, request):
+def get_words_from_multilingual_e5_base(test_texts, n, request,i):
     # Проверяем существование файла перед удалением (опционально)
-    file_path = 'RAG_seminar2.db'
+    file_path = 'RAG_seminar'+str(i)+'.db'
     if os.path.exists(file_path):
         os.remove(file_path)
         print(f"Файл {file_path} успешно удален.")
     else:
         print(f"Файл {file_path} не существует.")
-    conn = sqlite3.connect('RAG_seminar2.db')
+    conn = sqlite3.connect(file_path)
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS texts
                 (Text TEXT, embeddings BLOB)''')
@@ -70,7 +70,7 @@ def get_words_from_multilingual_e5_base(test_texts, n, request):
     conn.close()
     
    
-    td = TextDatabase(db_path='RAG_seminar2.db')
+    td = TextDatabase(db_path=file_path)
     a = td.find_nearest_text(text=request,k=n)
     return a
 
